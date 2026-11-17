@@ -1,1 +1,6 @@
 /h-and-m-personalized-fashion-recommendations/
+/.checkpoints/
+/raw-data/
+/.pytest_cache/
+__pycache__/
+*.py[cod]
