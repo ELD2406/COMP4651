@@ -1,0 +1,35 @@
+[pipeline]
+dataset_root = "h-and-m-personalized-fashion-recommendations"
+checkpoint_dir = ".checkpoints"
+log_level = "INFO"
+batch_size = 5000
+
+[sources]
+transactions = "transactions_train.csv"
+customers = "customers.csv"
+articles = "articles.csv"
+
+[kafka]
+bootstrap_servers = "localhost:9092"
+topic = "fashion.purchase-lines.v1"
+# Optional expected topic partition count; create/manage the topic separately.
+# topic_partitions = 6
+acks = "all"
+compression_type = "snappy"
+linger_ms = 20
+batch_size_bytes = 131072
+request_timeout_ms = 30000
+
+[replay]
+# Intentionally unset: pass --start-date and --end-date to select a replay window.
+# start_date = 2020-08-01
+# end_date = 2020-08-07
+speed = 0
+checkpoint_every_rows = 5000
+
+[storage]
+backend = "local" # choose "s3" to upload to AWS
+local_root = "raw-data"
+bucket = ""
+prefix = "raw"
+manifest_path = ".checkpoints/s3-manifest.json"
