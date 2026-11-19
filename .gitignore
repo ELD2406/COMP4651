@@ -2,5 +2,10 @@
 /.checkpoints/
 /raw-data/
 /.pytest_cache/
+.venv/
+venv/
+/config.toml
+/config.docker.toml
+/.env
 __pycache__/
 *.py[cod]

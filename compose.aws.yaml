@@ -1,0 +1,11 @@
+services:
+  ingestion:
+    environment:
+      AWS_PROFILE: "${AWS_PROFILE:?Set AWS_PROFILE to a configured local profile}"
+    volumes:
+      - type: bind
+        source: "${AWS_CONFIG_HOST_DIR:?Set AWS_CONFIG_HOST_DIR to your host AWS config directory}"
+        target: /home/ingest/.aws
+        read_only: true
+        bind:
+          create_host_path: false

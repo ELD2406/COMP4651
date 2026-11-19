@@ -7,3 +7,15 @@ Stage 1 Python ingestion is implemented. It streams and validates transaction da
 Unit tests cover validation, replay, checkpoints, Kafka publishing behavior, and storage backends.
 
 The H&M dataset is excluded from Git. Place the extracted files in `h-and-m-personalized-fashion-recommendations/`.
+
+## Docker quick start
+
+Docker Compose runs Kafka and the existing CLI in an on-demand container. With Docker Desktop running and the dataset extracted, run:
+
+```powershell
+docker compose build
+docker compose up -d kafka
+docker compose run --rm ingestion validate-transactions --limit 1000
+```
+
+See [Docker setup](docs/docker.md) for replay, storage, and S3 instructions, or [First Run setup](docs/first-run.md) for local Python setup.

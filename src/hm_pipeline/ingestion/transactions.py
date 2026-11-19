@@ -50,11 +50,14 @@ def replay_transactions(
     batch_size: int = 5000,
     speed: float = 0.0,
     checkpoint_every_rows: int | None = None,
+    limit: int | None = None,
 ) -> int:
     if start_date > end_date:
         raise ValueError("start_date must be on or before end_date")
     if batch_size <= 0 or speed < 0:
         raise ValueError("batch_size must be positive and speed cannot be negative")
+    if limit is not None and limit <= 0:
+        raise ValueError("limit must be positive")
     checkpoint_rows = min(checkpoint_every_rows or batch_size, batch_size)
     if checkpoint_rows <= 0:
         raise ValueError("checkpoint_every_rows must be positive")
@@ -82,6 +85,12 @@ def replay_transactions(
 
             if speed and pending_events:
                 time.sleep(1.0 / speed)
+            if limit is not None and sent + len(pending_events) >= limit:
+                sent += publisher.publish_batch(pending_events)
+                pending_events.clear()
+                checkpoint.save(identity, window, scanned)
+                last_acked = scanned
+                break
             if since_checkpoint >= checkpoint_rows:
                 if pending_events:
                     sent += publisher.publish_batch(pending_events)

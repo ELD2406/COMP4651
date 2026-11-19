@@ -48,6 +48,7 @@ def build_parser() -> argparse.ArgumentParser:
     replay.add_argument("--end-date", type=date.fromisoformat, help="Inclusive ISO date YYYY-MM-DD (required unless set in config)")
     replay.add_argument("--speed", type=float, help="Events per second; 0 (default) runs without artificial delay")
     replay.add_argument("--batch-size", type=int, help="Maximum source rows per acknowledgement/checkpoint batch")
+    replay.add_argument("--limit", type=int, help="Publish at most this many matching events; useful for bounded smoke tests")
     config = commands.add_parser("inspect-config", help="Print effective non-secret pipeline configuration")
     config.set_defaults(show_config=True)
     return parser
@@ -106,6 +107,7 @@ def run(args: argparse.Namespace) -> int:
             batch_size=args.batch_size or settings.batch_size,
             speed=settings.replay_speed if args.speed is None else args.speed,
             checkpoint_every_rows=settings.checkpoint_every_rows,
+            limit=args.limit,
         )
         print(f"Published {published} events to {settings.kafka_topic}")
         return 0

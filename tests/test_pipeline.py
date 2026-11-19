@@ -136,6 +136,23 @@ class PipelineTests(unittest.TestCase):
         self.assertEqual(publisher.keys, [event["customer_id"] for event in publisher.events])
         self.assertTrue(all("event_date" in event and "occurred_at" not in event for event in publisher.events))
 
+    def test_replay_limit_bounds_each_run_and_resumes_from_checkpoint(self):
+        path = self.transaction_file()
+        checkpoint = CheckpointStore(self.root / "limited-checkpoint.json")
+        publisher = RecordingPublisher()
+        sent = replay_transactions(
+            path, publisher, checkpoint,
+            date(2019, 1, 1), date(2019, 1, 3), batch_size=4, limit=2,
+        )
+        self.assertEqual(sent, 2)
+        self.assertEqual([event["source_row_number"] for event in publisher.events], [1, 2])
+        resumed = RecordingPublisher()
+        self.assertEqual(replay_transactions(
+            path, resumed, checkpoint,
+            date(2019, 1, 1), date(2019, 1, 3), batch_size=4, limit=2,
+        ), 2)
+        self.assertEqual([event["source_row_number"] for event in resumed.events], [3, 4])
+
     def test_checkpoint_resume_and_failure(self):
         path = self.transaction_file()
         checkpoint = CheckpointStore(self.root / "checkpoint.json")
