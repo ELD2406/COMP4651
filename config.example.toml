@@ -33,3 +33,12 @@ local_root = "raw-data"
 bucket = ""
 prefix = "raw"
 manifest_path = ".checkpoints/s3-manifest.json"
+
+[spark]
+master = "local[*]"
+driver_memory = "6g"
+shuffle_partitions = 16
+processed_root = "s3/processed"
+analytics_root = "s3/analytics"
+# 0 means read all rows; set a positive number for a quick sample.
+row_limit = 0

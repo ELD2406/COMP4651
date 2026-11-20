@@ -1,7 +1,9 @@
 /h-and-m-personalized-fashion-recommendations/
 /.checkpoints/
 /raw-data/
+/s3/
 /.pytest_cache/
+.ipynb_checkpoints/
 .venv/
 venv/
 /config.toml

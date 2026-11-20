@@ -19,3 +19,8 @@ docker compose run --rm ingestion validate-transactions --limit 1000
 ```
 
 See [Docker setup](docs/docker.md) for replay, storage, and S3 instructions, or [First Run setup](docs/first-run.md) for local Python setup.
+
+## Analysis part
+- Spark environment is configured (local mode, driven by `config.toml`).
+- Data ingestion is done: the three H&M CSVs are loaded, cleaned, and validated in
+  `notebooks/01_hm_pyspark_analysis.ipynb` for batch analysis.
