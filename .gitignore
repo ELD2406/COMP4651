@@ -1,6 +1,9 @@
 /h-and-m-personalized-fashion-recommendations/
 /.checkpoints/
 /raw-data/
+/s3/
+/config.toml
 /.pytest_cache/
+.ipynb_checkpoints/
 __pycache__/
 *.py[cod]
