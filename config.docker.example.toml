@@ -1,0 +1,32 @@
+[pipeline]
+dataset_root = "/data"
+checkpoint_dir = "/checkpoints"
+log_level = "INFO"
+batch_size = 5000
+
+[sources]
+transactions = "/data/transactions_train.csv"
+customers = "/data/customers.csv"
+articles = "/data/articles.csv"
+
+[kafka]
+bootstrap_servers = "kafka:9092"
+topic = "fashion.purchase-lines.v1"
+topic_partitions = 3
+acks = "all"
+compression_type = "snappy"
+linger_ms = 20
+batch_size_bytes = 131072
+request_timeout_ms = 30000
+
+[replay]
+# Select replay bounds explicitly on the CLI or add both dates here.
+speed = 0
+checkpoint_every_rows = 5000
+
+[storage]
+backend = "local"
+local_root = "/raw-data"
+bucket = ""
+prefix = "raw"
+manifest_path = "/checkpoints/s3-manifest.json"
