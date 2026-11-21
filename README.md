@@ -25,7 +25,9 @@ See [Docker setup](docs/docker.md) for replay, storage, and S3 instructions, or 
 - Data ingestion is done: the three H&M CSVs are loaded, cleaned, and validated in
   `notebooks/01_hm_pyspark_analysis.ipynb` for batch analysis.
 - Completed analysis
-  - GMV trend(year,month,quarter)
+  - GMV trend
+    - ttm,month,quarter
+    - yoy,qoq,mom
   - TOP K
     - group ranking
     - type ranking
